@@ -2,21 +2,6 @@
 import pymysql
 import bcrypt
 
-
-def connection_estb():
-    # Define the connection parameters
-    host = "sql12.freesqldatabase.com"
-    port = 3306 # or your custom port
-    user = "sql12616283"
-    password = "peM429qpNa"
-    database = "sql12616283"
-
-    # Create a connection object
-    connection = pymysql.connect(host=host, user=user, password=password, database=database, port=port)
-    mycur = connection.cursor()
-
-    return connection, mycur
-
 def add_row_uname(connection,mycur,data):
     try:
         mycur.execute("INSERT INTO users (userid, password) VALUES (%s, %s)", (data[0], data[1]))
@@ -36,4 +21,4 @@ def validation(connection,mycur,data):
         return ''
     except Exception as e:
         print(e)
-        return False
+        return ''
