@@ -1,5 +1,6 @@
 # Import the library
 import pymysql
+import bcrypt
 
 
 def connection_estb():
@@ -16,12 +17,23 @@ def connection_estb():
 
     return connection, mycur
 
-def add_row_uname(connection,mycur):
+def add_row_uname(connection,mycur,data):
     try:
-        test_values = '''insert into users values ('testuname','testpwd')'''
-        mycur.execute(test_values)
+        mycur.execute("INSERT INTO users (userid, password) VALUES (%s, %s)", (data[0], data[1]))
         connection.commit()
         return
     except Exception as e:
         print(e)
         return
+    
+def validation(connection,mycur,data):
+    try:
+        mycur.execute("SELECT * FROM users WHERE userid = %s",(data[0]))
+        val = mycur.fetchall()
+        if len(val)!=0:
+            if bcrypt.checkpw(data[1].encode(),val[0][1].encode()):
+                return val[0][0]
+        return ''
+    except Exception as e:
+        print(e)
+        return False
