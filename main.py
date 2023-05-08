@@ -3,16 +3,21 @@ from connection import connection_estb
 from login_operation import add_row_uname, validation
 from getpass import getpass
 from tdee_operation import weight_cal_insert
+import schedule
+import time
+import datetime
 
 def create_account(connection,mycur):
     result = encrypt()
     while result[0]=='invalid':
         result = encrypt()
-    add_row_uname(connection,mycur,result)
-    test_values = '''select * from users'''
-    mycur.execute(test_values)
-    print(mycur.fetchall())
-    return result[0]
+    if add_row_uname(connection,mycur,result)==1:
+        test_values = '''select * from users'''
+        mycur.execute(test_values)
+        print(mycur.fetchall())
+        weight_cal_insert(connection,mycur,result[0])
+    else:
+        print("Operation Failed")
 
 def login(connection,mycur):
     uname = ''
@@ -25,7 +30,8 @@ def login(connection,mycur):
             print("Username or Password wrong")
         else:
             print("Login Successful")
-            return uname
+            weight_cal_insert(connection,mycur,uname)
+            break
     
 
 
@@ -34,13 +40,13 @@ if __name__ == "__main__":
     connection,mycur = connection_estb()
     choice = 0
     while choice!=3:
-        choice = int(input("1. Create a new account\n 2. Log weight\n 3. Exit"))
+        choice = int(input("1. Create a new account\n2. Log weight\n3. Exit\nEnter: "))
         if choice==1:
-            uname = create_account(connection,mycur)
-            weight_cal_insert(connection,mycur,uname)
+            create_account(connection,mycur)
         elif choice==2:
-            uname = login(connection,mycur)
-            weight_cal_insert(connection,mycur,uname)
+            login(connection,mycur)
+            
+    connection.commit()
     connection.close()
       
 

@@ -15,5 +15,7 @@ mycur.execute("SET FOREIGN_KEY_CHECKS = 0")
 mycur.execute("TRUNCATE TABLE data")
 mycur.execute("TRUNCATE TABLE users")
 mycur.execute("SET FOREIGN_KEY_CHECKS = 1")
+# mycur.execute("DROP TABLE data")
 connection.commit()
+connection.close()
 

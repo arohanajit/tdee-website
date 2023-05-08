@@ -6,10 +6,10 @@ def add_row_uname(connection,mycur,data):
     try:
         mycur.execute("INSERT INTO users (userid, password) VALUES (%s, %s)", (data[0], data[1]))
         connection.commit()
-        return
+        return 1
     except Exception as e:
         print(e)
-        return
+        return 0
     
 def validation(connection,mycur,data):
     try:
