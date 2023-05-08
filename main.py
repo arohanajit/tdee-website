@@ -12,6 +12,7 @@ def create_account(connection,mycur):
     test_values = '''select * from users'''
     mycur.execute(test_values)
     print(mycur.fetchall())
+    return result[0]
 
 def login(connection,mycur):
     uname = ''
@@ -31,9 +32,15 @@ def login(connection,mycur):
 
 if __name__ == "__main__":
     connection,mycur = connection_estb()
-    # create_account(connection,mycur)
-    uname = login(connection,mycur)
-    weight_cal_insert(connection,mycur,uname)
+    choice = 0
+    while choice!=3:
+        choice = int(input("1. Create a new account\n 2. Log weight\n 3. Exit"))
+        if choice==1:
+            uname = create_account(connection,mycur)
+            weight_cal_insert(connection,mycur,uname)
+        elif choice==2:
+            uname = login(connection,mycur)
+            weight_cal_insert(connection,mycur,uname)
     connection.close()
       
 
