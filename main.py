@@ -3,6 +3,7 @@ from connection import connection_estb
 from login_operation import add_row_uname, validation
 from getpass import getpass
 from tdee_operation import weight_cal_insert, no_entry
+from google_sheets import update_from_sheet
 import schedule
 import time
 import datetime
@@ -39,6 +40,8 @@ def login(connection,mycur):
 if __name__ == "__main__":
     connection,mycur = connection_estb()
     schedule.every().day.at("23:50").do(no_entry, connection, mycur)
+    # schedule the update_from_sheet function to run every hour
+    schedule.every().hour.do(update_from_sheet, connection, mycur)
     choice = 0
     while choice!=3:
         choice = int(input("1. Create a new account\n2. Log weight\n3. Exit\nEnter: "))
@@ -46,6 +49,7 @@ if __name__ == "__main__":
             create_account(connection,mycur)
         elif choice==2:
             login(connection,mycur)
+
             
         schedule.run_pending()
         time.sleep(1)
