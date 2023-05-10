@@ -11,5 +11,7 @@ def connection_estb():
     # Create a connection object
     connection = pymysql.connect(host=host, user=user, password=password, database=database, port=port)
     mycur = connection.cursor()
+    mycur.execute("SET time_zone = '+00:00'")
+    connection.commit()
 
     return connection, mycur
