@@ -28,9 +28,7 @@ def update_from_sheet(connection,mycur):
     # convert the json to dataframe
     records_df = pd.DataFrame.from_dict(records_data)
 
-    rows = records_df.shape[0]
-    # view the top records
-    print(records_df.head())
+    rows = int(records_df.shape[0])
 
     # delete empty rows
     delete_empty_rows = records_df['Username']==""
@@ -38,6 +36,7 @@ def update_from_sheet(connection,mycur):
 
     # delete duplicates
     records_df = records_df.drop_duplicates(subset="Username",keep='last')
+
 
     # delete invalid users
     db_users = mycur.execute("SELECT userid FROM users")
@@ -48,9 +47,9 @@ def update_from_sheet(connection,mycur):
     records_df = records_df[records_df['Username'].isin(user)]
     
     # insert data into db
-    for index,rows in records_df.iterrows():
-        weight_cal_insert(connection,mycur,rows['Username'],rows['Weight'],rows['Calorie'])
+    for index,vals in records_df.iterrows():
+        weight_cal_insert(connection,mycur,vals['Username'],vals['Weight'],vals['Calorie'])
 
     # empty dataframe 
     for i in range(2,rows+3):
-        sheet_instance.delete_rows(i)
+        sheet_instance.delete_rows(2)

@@ -19,4 +19,16 @@ def no_entry(connection,mycur):
             vals = mycur.fetchall()
             mycur.execute("INSERT INTO data(userid, date, weight, calorie) VALUES (%s,%s,%s,%s)",(i[0],now,vals[0][0],vals[0][1]))
             print(f"Data copied for previous date for {i[0]}")
+
+# def tdee(connection,mycur):
+#     mycur.execute("SELECT userid FROM users")
+#     users = mycur.fetchall()
+#     users = [i[0] for i in users]
+
+#     def pre_seven_entries(weight,cal,count):
+#         INITIAL_WEIGHT_DAYS = count
+
+        
+
+#     def post_seven_entries(weight,cal,count):
         

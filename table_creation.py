@@ -13,13 +13,15 @@ connection = pymysql.connect(host=host, user=user, password=password, database=d
 mycur = connection.cursor()
 
 # Create username password table
-# create_table_1 = '''
-# CREATE TABLE users (
-#   userid VARCHAR(255) PRIMARY KEY,
-#   password VARCHAR(255)
-# )'''
+create_table_1 = '''
+CREATE TABLE users (
+  userid VARCHAR(255) PRIMARY KEY,
+  password VARCHAR(255),
+  height NUMERIC,
+  gender ENUM('M','F')
+)'''
 
-# mycur.execute(create_table_1)
+mycur.execute(create_table_1)
 
 
 # create values database linked by foreign key username

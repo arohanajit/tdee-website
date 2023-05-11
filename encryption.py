@@ -14,6 +14,8 @@ def encrypt():
         pwd = pwd.encode('utf-8')
         hashed_pwd = bcrypt.hashpw(pwd,bcrypt.gensalt())
         print(pwd,hashed_pwd)
-        return [uname,hashed_pwd]
+        height = input("Enter height: ")
+        gender = input("Enter gender(M/F): ")
+        return [uname,hashed_pwd,height,gender]
     else:
         return ['invalid','invalid']
