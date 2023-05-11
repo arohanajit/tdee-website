@@ -2,7 +2,7 @@ from encryption import encrypt
 from connection import connection_estb
 from login_operation import add_row_uname, validation
 from getpass import getpass
-from tdee_operation import weight_cal_insert, no_entry
+from tdee_operation import weight_cal_insert, no_entry, tdee
 from google_sheets import update_from_sheet
 import schedule
 import time
@@ -51,7 +51,7 @@ if __name__ == "__main__":
             login(connection,mycur)
         
 
-            
+        tdee(connection,mycur)   
         schedule.run_pending()
         time.sleep(1)
 
