@@ -18,7 +18,8 @@ CREATE TABLE users (
   userid VARCHAR(255) PRIMARY KEY,
   password VARCHAR(255),
   height NUMERIC,
-  gender ENUM('M','F')
+  gender ENUM('M','F').,
+  credential JSON
 )'''
 
 mycur.execute(create_table_1)

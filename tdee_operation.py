@@ -1,5 +1,7 @@
 import pymysql
 from datetime import date
+from calendar_event import get_credentials
+import json
 
 def weight_cal_insert(connection,mycur,uname,weight=0,calories=0):
     if weight==0 or calories==0:
@@ -17,7 +19,12 @@ def no_entry(connection,mycur):
         if now != i[1]:
             mycur.execute("SELECT weight,calorie FROM data WHERE userid=%s ORDER BY date DESC LIMIT 1",i[0])
             vals = mycur.fetchall()
-            mycur.execute("INSERT INTO data(userid, date, weight, calorie) VALUES (%s,%s,%s,%s)",(i[0],now,vals[0][0],vals[0][1]))
+            get_credentials(i[0])
+            data = ""
+            with open(f'token.json') as f:
+                data = json.load(f)
+            
+            mycur.execute("INSERT INTO data(userid, date, weight, calorie, credential) VALUES (%s,%s,%s,%s,%s)",(i[0],now,vals[0][0],vals[0][1],json.dumps(data)))
             print(f"Data copied for previous date for {i[0]}")
 
 def tdee(connection,mycur):
