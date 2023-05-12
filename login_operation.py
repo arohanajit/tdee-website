@@ -1,17 +1,22 @@
 # Import the library
-import pymysql
 import bcrypt
+from calendar_event import get_credentials
+import traceback
 
 def add_row_uname(connection,mycur,data):
     try:
-        mycur.execute("INSERT INTO users (userid, password, height, gender) VALUES (%s, %s, %s, %s)", (data[0], data[1], data[2], data[3]))
+        get_credentials()
+        file = ""
+        with open(f'token.json') as f:
+            file = f.read()
+        mycur.execute("INSERT INTO users (userid, password, height, gender, credential) VALUES (%s, %s, %s, %s, %s)", (data[0], data[1], data[2], data[3], file))
         connection.commit()
         return 1
-    except Exception as e:
-        print(e)
+    except:
+        traceback.print_exc()
         return 0
     
-def validation(connection,mycur,data):
+def validation(mycur,data):
     try:
         mycur.execute("SELECT * FROM users WHERE userid = %s",(data[0]))
         val = mycur.fetchall()

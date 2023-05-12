@@ -2,11 +2,11 @@ from encryption import encrypt
 from connection import connection_estb
 from login_operation import add_row_uname, validation
 from getpass import getpass
-from tdee_operation import weight_cal_insert, no_entry, tdee
+from tdee_operation import weight_cal_insert, no_entry
 from google_sheets import update_from_sheet
+from calendar_event import create_event
 import schedule
 import time
-import datetime
 
 def create_account(connection,mycur):
     result = encrypt()
@@ -20,18 +20,18 @@ def create_account(connection,mycur):
     else:
         print("Operation Failed")
 
-def login(connection,mycur):
+def login(mycur):
     uname = ''
     while uname == '':
         credentials = ['','']
         credentials[0] = input("Enter username: ")
         credentials[1] = getpass(prompt="Enter pwd: ")
-        uname = validation(connection,mycur,credentials)
+        uname = validation(mycur,credentials)
         if uname == '':
             print("Username or Password wrong")
         else:
             print("Login Successful")
-            weight_cal_insert(connection,mycur,uname)
+            weight_cal_insert(mycur,uname)
             break
     
 
@@ -39,7 +39,8 @@ def login(connection,mycur):
 
 if __name__ == "__main__":
     connection,mycur = connection_estb()
-    schedule.every().day.at("23:50").do(no_entry, connection, mycur)
+    schedule.every().day.at("23:50").do(no_entry, mycur)
+    schedule.every().day.at("23:59").do(create_event, mycur)
     # schedule the update_from_sheet function to run every hour
     schedule.every().hour.do(update_from_sheet, connection, mycur)
     choice = 0
@@ -48,10 +49,11 @@ if __name__ == "__main__":
         if choice==1:
             create_account(connection,mycur)
         elif choice==2:
-            login(connection,mycur)
+            login(mycur)
         
 
-        tdee(connection,mycur)   
+        create_event(mycur)
+        # tdee(connection,mycur)   
         schedule.run_pending()
         time.sleep(1)
 
