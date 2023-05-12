@@ -49,6 +49,7 @@ The project is covered under MIT Open Source
 ## Future Scope and Personal Notes
 There are a couple of things I plan to do
 
+- Better comments
 - The project uses a free online database, so you probably won't be able to use it for extensive tests. This also introduces a possibility to that it might be down at sometime in future (whenever you're seeing this). Please create your own instance of db and replace the credentials.
 - Clean up the code. In case it is not immediately evident, I am an amateur programmer and having lot of extra code commented out which were used for test/previous versions. I am planning to clean up the code.
 - Develop into a flask web app. As of now the web input is terminal based.
