@@ -14,6 +14,7 @@ This is a personal project which aims to make tracking calories/weights more con
 
 ## Features
 - The project takes input via web/google forms thus enabling users to input data via pc/smartphone as per their convenience. Use this [form](https://docs.google.com/forms/d/e/1FAIpQLScvfee38jOdAMEsOvmX2SUSCPIjlm8tPCwJGcbW86RVlvvv8A/viewform)
+- It will need access to your google calendar. As the project is not a commercial one, it cannot be verified by google and hence will probably show as unsafe. You can verify it by checking the developer mail which would be mine.
 - It calculates tdee and sets reminder via google calendar event, thus eliminating the need of browsing to a certain app to see your daily calorie needs. This particularly can come in handy if someone uses a smart home device which can give them their daily tdee goal as they wake up
 - The generic formula for calculating tdee is used which updated itself as more data is input. It is highly recommeded to input atleast **2 weeks** of data to get consistent results.
 
