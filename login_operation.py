@@ -1,9 +1,10 @@
 # Import the library
 import bcrypt
+import pymysql
 from calendar_event import get_credentials
 import traceback
 
-def add_row_uname(connection,mycur,data):
+def add_row_uname(connection, mycur, data):
     try:
         get_credentials()
         file = ""
@@ -12,7 +13,14 @@ def add_row_uname(connection,mycur,data):
         mycur.execute("INSERT INTO users (userid, password, height, gender, credential) VALUES (%s, %s, %s, %s, %s)", (data[0], data[1], data[2], data[3], file))
         connection.commit()
         return 1
-    except:
+    except pymysql.err.IntegrityError as e:
+        if e.args[0] == 1062:  # Duplicate entry error code
+            print(f"User '{data[0]}' already exists. Please choose a different username.")
+        else:
+            print(f"An integrity error occurred: {e}")
+        return 0
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
         traceback.print_exc()
         return 0
     
